@@ -24,13 +24,15 @@ in
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      firefox
-      nerdfonts
-      tree
       blackbox-terminal
-      python3
-      gh
+      cabal-install
       discord
+      firefox
+      gh
+      ghci
+      nerdfonts
+      python3
+      tree
     ];
   };
 }
