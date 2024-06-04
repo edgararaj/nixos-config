@@ -54,6 +54,11 @@ bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
 
+# Edit command
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
 # History
 HISTSIZE=5000
 HISTFILE=~/.zsh_history
