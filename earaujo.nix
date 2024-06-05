@@ -11,6 +11,13 @@ in
   home-manager.users.earaujo = { config, pkgs, ...}: {
     home.stateVersion = "23.11";
 
+    home.file = {
+      ".local/bin" = {
+        source = ./scripts;
+        recursive = true;
+      };
+    };
+
     programs.git = {
       enable = true;
       userName  = user.name;
@@ -29,7 +36,7 @@ in
       discord
       firefox
       gh
-      ghci
+      ghc
       nerdfonts
       python3
       tree

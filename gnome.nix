@@ -17,13 +17,6 @@
 
     xdg.configFile."wofi/".source = ./dotfiles/wofi;
 
-    home.file = {
-      ".local/bin" = {
-        source = ./scripts;
-	recursive = true;
-      };
-    };
-
     home.packages = with pkgs; [
       (writeScriptBin "wofi-powermenu" (builtins.readFile ./dotfiles/wofi/wofipowermenu.py))
       colloid-gtk-theme
@@ -98,6 +91,8 @@
         move-to-workspace-4 = [ "<Shift><Super>4" ];
         move-to-workspace-left = [ "<Shift><Control><Alt>h" ];
         move-to-workspace-right = [ "<Shift><Control><Alt>l" ];
+        switch-input-source = [ "<Control>space" ];
+        switch-input-source-backward = [ "<Shift><Control>space" ];
         switch-to-workspace-1 = [ "<Super>1" ];
         switch-to-workspace-2 = [ "<Super>2" ];
         switch-to-workspace-3 = [ "<Super>3" ];
