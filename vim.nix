@@ -2,17 +2,18 @@
 
 {
   environment.variables = { EDITOR = "nvim"; };
+
   environment.systemPackages = with pkgs; [
     xsel
     gnumake
     (neovim.override { vimAlias = true; })
   ];
 
-  home-manager.users.earaujo = { config, pkgs, ...}: {
-    home.stateVersion = "23.11";
-    # basically copy the whole nvchad that is fetched from github to ~/.config/nvim
-    xdg.configFile."nvim/" = {
-      source = pkgs.callPackage ./derivations/nvchad.nix {};
-    };
-  };
+  #home-manager.users.earaujo = { config, pkgs, ...}: {
+  #  home.stateVersion = "24.05";
+
+  #  home.packages = with pkgs; [
+  #    (writeScriptBin "nvchad-install" (builtins.readFile ./dotfiles/nvchad-install))
+  #  ];
+  #};
 }

@@ -4,19 +4,19 @@
 
 { config, lib, pkgs, ... }:
 
-let
-  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz";
-in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./earaujo.nix
       ./gnome.nix
+      ./hyprland.nix
       ./vim.nix
       ./zsh.nix
       ./firefox.nix
-      (import "${home-manager}/nixos")
+      ./vscode.nix
+      ./borg.nix
+      <home-manager/nixos>
     ];
 
   fileSystems = {
@@ -28,13 +28,35 @@ in
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = [ "ntfs" ];
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
+  # Use amd graphics
+  boot.initrd.kernelModules = [ "amdgpu" ];
+
+  #services.displayManager.sddm = {
+  #  enable = true;
+  #  wayland.enable = true;
+  #};
+  services.xserver.displayManager.gdm.enable = true;
 
   nixpkgs.config.allowAliases = false;
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # This is using a rec (recursive) expression to set and access XDG_BIN_HOME within the expression
+  # For more on rec expressions see https://nix.dev/tutorials/first-steps/nix-language#recursive-attribute-set-rec
+  environment.sessionVariables = rec {
+    XDG_CACHE_HOME  = "$HOME/.cache";
+    XDG_CONFIG_HOME = "$HOME/.config";
+    XDG_DATA_HOME   = "$HOME/.local/share";
+    XDG_STATE_HOME  = "$HOME/.local/state";
+
+    # Not officially in the specification
+    XDG_BIN_HOME    = "$HOME/.local/bin";
+    PATH = [ 
+      "${XDG_BIN_HOME}"
+    ];
+  };
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -45,7 +67,21 @@ in
 
   # Enable sound.
   # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
+
+  hardware.graphics.enable = true;
+
+  # Pipewire
+  # rtkit is optional but recommended
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -56,11 +92,25 @@ in
     wget
     git
     gcc
+    gdb
+    cloudflare-warp
   ];
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  #networking.networkmanager.enable = false;  # Easiest to use and most distros use this by default.
+  #networking.wireless.iwd.enable = true;
+  #networking.networkmanager.wifi.backend = "iwd";
+
+  systemd.packages = [ pkgs.cloudflare-warp ]; # for warp-cli
+  systemd.targets.multi-user.wants = [ "warp-svc.service" ]; # causes warp-svc to be started automatically
+
+  #systemd.services."NetworkManager" = {
+  #  overrideStrategy = "asDropin";
+  #  serviceConfig = {
+  #    ExecStartPre =  "/run/current-system/sw/bin/sleep 2";
+  #  };
+  #};
 
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";
@@ -88,13 +138,28 @@ in
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    # require public key authentication for better security
+    settings.PasswordAuthentication = false;
+    settings.KbdInteractiveAuthentication = false;
+    #settings.PermitRootLogin = "yes";
+  };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedTCPPorts = [ 8888 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
+
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      xwayland
+    ];
+  };
+
+  virtualisation.libvirtd.enable = true;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

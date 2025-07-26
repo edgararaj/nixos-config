@@ -1,0 +1,94 @@
+[bell]
+animation = "EaseOutExpo"
+color = "0xffffff"
+duration = 0
+
+[colors]
+draw_bold_text_with_bright_colors = false
+
+# Converted from base_30 in https://github.com/NvChad/base46/blob/v3.0/lua/base46/themes/penumbra_dark.lua
+
+[colors.primary]
+background = '#FFF7ED'   # black (light background)
+foreground = '#3E4044'   # white (dark text for contrast)
+
+[colors.normal]
+black   = '#f5ede3'      # darker_black
+red     = '#ca7081'      # red
+green   = '#3ea57b'      # green
+yellow  = '#92963a'      # yellow
+blue    = '#6E8DD5'      # blue
+magenta = '#ac78bd'      # purple
+cyan    = '#00A0BA'      # cyan
+white   = '#3E4044'      # white (dark for contrast)
+
+[colors.bright]
+black   = '#dad2c8'      # one_bg3
+red     = '#CA736C'      # baby_pink
+green   = '#46A473'      # vibrant_green
+yellow  = '#A38F2D'      # sun
+blue    = '#5794D0'      # nord_blue
+magenta = '#806db8'      # dark_purple
+cyan    = '#22839b'      # teal
+white   = '#3E4044'      # same as normal white
+
+[cursor]
+style = "Block"
+unfocused_hollow = true
+
+[debug]
+log_level = "OFF"
+persistent_logging = false
+print_events = false
+render_timer = false
+
+[font]
+size = 12
+
+[font.bold]
+family = "JetBrainsMono Nerd Font"
+style = "Bold"
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+[font.italic]
+family = "JetBrainsMono Nerd Font"
+style = "Medium Italic"
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Medium"
+
+[font.offset]
+x = 0
+y = 0
+
+[mouse]
+hide_when_typing = false
+
+[[mouse.bindings]]
+action = "PasteSelection"
+mouse = "Middle"
+
+[scrolling]
+history = 100000
+multiplier = 3
+
+[selection]
+save_to_clipboard = false
+semantic_escape_chars = ",│`|:\"' ()[]{}<>"
+
+[window]
+decorations = "none"
+dynamic_padding = false
+opacity = 0.95
+startup_mode = "Windowed"
+
+[window.padding]
+x = 5
+y = 5
+
+[general]
+live_config_reload = true

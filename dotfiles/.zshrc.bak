@@ -43,7 +43,7 @@ zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
 
 # Cache compinit results
-zcompdump="${ZDOTDIR:-$HOME}/.compinit"
+zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
 if [[ -n ${ZSH_COMPDUMP:-} ]]; then
   zcompdump="${ZSH_COMPDUMP}"
 fi

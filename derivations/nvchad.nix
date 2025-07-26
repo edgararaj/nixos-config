@@ -1,4 +1,4 @@
-{ stdenv, pkgs, fetchFromGithub }:
+{ stdenv, pkgs, lib, fetchFromGithub }:
 
 stdenv.mkDerivation {
   pname = "nvchad";
@@ -7,15 +7,14 @@ stdenv.mkDerivation {
 
   src = pkgs.fetchFromGitHub {
     owner = "NvChad";
-    repo = "NvChad";
-    rev = "c8777040fbda6a656f149877b796d120085cd918";
-    sha256 = "sha256-J4SGwo/XkKFXvq+Va1EEBm8YOQwIPPGWH3JqCGpFnxY=";
+    repo = "starter";
+    rev = "5c656910f058ecdc6753c6a4f39b64afce89a0e6";
+    sha256 = "sha256-+UcDn0rTYKlaPi0ybUhYtsdPGPqKChDIPtafjf/in8g=";
   };
 
   installPhase = ''
     # Fetch the whole repo and put it in $out
     mkdir $out
     cp -r * "$out/"
-    mkdir -p "$out/lua/custom"
   '';
 }

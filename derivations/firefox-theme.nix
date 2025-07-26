@@ -13,6 +13,15 @@ stdenv.mkDerivation {
   };
 
   installPhase = ''
+    echo "
+/* Tabs bar height */
+#tabbrowser-tabs,
+#tabbrowser-tabs arrowscrollbox {
+  height: auto !important;
+  min-height: auto !important;
+  --tab-min-height: 0px;
+}
+" >> src/other/firefox/chrome/Colloid/parts/tabsbar.css
     # Fetch the whole repo and put it in $out
     mkdir $out
     cp -r src/other/firefox/chrome/* "$out/"

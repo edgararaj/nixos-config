@@ -1,0 +1,14 @@
+{ config, lib, pkgs, ... }:
+
+{
+  home-manager.users.earaujo = { config, pkgs, ...}: {
+    home.stateVersion = "24.05";
+
+    home.packages = with pkgs; [
+      alacritty
+    ];
+
+    xdg.configFile."alacritty/alacritty.toml".source = ./dotfiles/alacritty.toml;
+  };
+}
+
